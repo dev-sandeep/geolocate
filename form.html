@@ -1,0 +1,334 @@
+<head>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script>
+		google.load("jquery", "1.5");
+	</script>
+	<script type="text/javascript" src="jquery.multipage.js"></script>
+	<script type="text/javascript" src="rangeslider.min.js"></script>
+	<link rel="stylesheet" href="jquery.multipage.css" />
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+
+	<script type="text/javascript">
+		$(window).ready(function () {
+			$('#multipage').multipage({ transitionFunction: transition, stateFunction: textpages });
+			$('form').submit(function () { window.location = "/result"; return false; });
+			familySlider();
+		});
+
+		function generateTabs(tabs) {
+
+			html = '';
+			for (var i in tabs) {
+				tab = tabs[i];
+				html = html + '<li class="multipage_tab"><a href="#" onclick="return $(\'#multipage\').gotopage(' + tab.number + ');">' + tab.title + '</a></li>';
+			}
+			$('<ul class="multipage_tabs" id="multipage_tabs">' + html + '<div class="clearer"></div></ul>').insertBefore('#multipage');
+		}
+		function setActiveTab(selector, page) {
+			$('#multipage_tabs li').each(function (index) {
+				if ((index + 1) == page) {
+					$(this).addClass('active');
+				} else {
+					$(this).removeClass('active');
+				}
+			});
+		}
+
+		function transition(from, to) {
+			$(from).fadeOut('fast', function () { $(to).fadeIn('fast'); });
+
+		}
+		function textpages(obj, page, pages) {
+			$(obj).html(page + ' of ' + pages);
+		}
+
+		function familySlider() {
+			var $document = $(document);
+			var selector = '[data-rangeslider]';
+			var $element = $(selector);
+
+			// For ie8 support
+			var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
+			// Example functionality to demonstrate a value feedback
+			function valueOutput(val, that) {
+				$(that).parent().find(".output").html(val)
+			}
+
+			// var selector = '[data-rangeslider]';
+			// $document.on('input', 'input[type="range"], ' + selector, function (e) {
+			// 	valueOutput(e.target);
+			// });
+
+			$(".slider").change(function () { valueOutput($(this).val(), this) })
+		}
+
+		function sliderFn(evt) {
+			console.log(evt);
+		}
+	</script>
+	<style type='text/css'>
+		body {
+			font-family: helvetica;
+		}
+
+
+		p.input label {
+			display: block;
+		}
+
+
+		p.input input {
+			width: 200px;
+		}
+
+		.clearer {
+			clear: both;
+			width: 100%;
+			height: 0px;
+		}
+	</style>
+</head>
+
+<body class="map-bg">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					Geolocate.<b>ME</b>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="row">
+		<div class="col-lg-12 col-sm-12 col-xs-12 text-center-webkit">
+			<div style="width:500px; margin:60px; padding:10px; border:20px solid #F0F0F0;" class="text-left bg-white">
+				<form id="multipage">
+
+					<!-- All the form elements starts here -->
+					<fieldset id="page_one">
+						<legend>Location</legend>
+						<!-- <small>Select the area/locality where you want to search a Property.</small> -->
+						<div class="col-lg-12">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Select an area for the Property">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Go!</button>
+								</span>
+							</div>
+							<!-- /input-group -->
+						</div>
+						<!-- /.col-lg-6 -->
+					</fieldset>
+					<fieldset id="page_two">
+						<legend>Property Type</legend>
+						<div class="col-lg-12">
+							<div class="input-group">
+								<h5>Do you want to:</h5>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Buy</button>
+									<button type="button" class="btn btn-default">Sell</button>
+									<button type="button" class="btn btn-default">Lease</button>
+									<button type="button" class="btn btn-default">Search</button>
+								</div>
+							</div>
+							<!-- /input-group -->
+						</div>
+					</fieldset>
+					<fieldset id="page_three">
+						<legend>Family</legend>
+						<div class="col-lg-12">
+							<div class="slider-div">
+								<label>Number of family members: <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="1" max="10" step="1" value="2" data-orientation="vertical"
+								/>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_four">
+						<legend>Family Details</legend>
+						<div class="col-lg-12">
+							<div class="slider-div">
+								<label>First Member's Age: <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="0" max="140" step="1" value="1" data-orientation="vertical"
+								/>
+							</div>
+							<div class="slider-div">
+								<label>Second Member's Age: <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="0" max="140" step="1" value="1" data-orientation="vertical"
+								/>
+							</div>
+							<div class="slider-div">
+								<label>Third Member's Age: <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="0" max="140" step="1" value="1" data-orientation="vertical"
+								/>
+							</div>
+							<div class="slider-div">
+								<label>Fourth Member's Age: <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="0" max="140" step="1" value="1" data-orientation="vertical"
+								/>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_five">
+						<legend>Income</legend>
+						<div class="col-lg-12">
+							<div class="slider-div">
+								<label>Family Income(in 1000 Euros): <span class="output"></span></label>
+								<input onchange="sliderFn" class="slider" data-rangeslider type="range" min="100" max="10000" step="100" value="2" data-orientation="vertical"
+								/>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_six">
+						<legend>Office Location</legend>
+						<div class="col-lg-12">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Search your office location">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Go!</button>
+								</span>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_six">
+						<legend>Car</legend>
+						<div class="col-lg-12">
+							<h5>Do you own a car:</h5>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default">Yes</button>
+								<button type="button" class="btn btn-default">No</button>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_seven">
+						<legend>Amenities</legend>
+						<div class="col-lg-12">
+							<h5>Select the amenities important for you:</h5>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Office
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Petrol Pump/Gas Station
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Park
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Lake
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Playground
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Atm
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Child Care
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									School
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Play Ground
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Coaching Classes
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Hospital
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Clinics/Pharmacy
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Mall/Movie Theater
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Grocery/Supermarket
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Bus Stand - Metro - Tram Station
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Gym
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Health/Recreational Classes
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Sports Facility
+								</label>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset id="page_eight">
+						<legend>Result</legend>
+						<div class="col-lg-12">
+							<img style="position:relative; left:-266px; width:900px" src="images/result.PNG">
+						</div>
+					</fieldset>
+					<input type="submit" onclick="redirectToMap()" value="Detailed Map" />
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
